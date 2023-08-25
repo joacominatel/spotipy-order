@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <nav>
+        <div class="user-info">
+            {% if user_info %}
+                <img src="{{ url_for('static', filename='../static/images/spotify.png') }}" alt="Spotify Logo">
+                <p>Usuario: {{ user_info.display_name }}</p>
+            {% else %}
+                <a href="{{ url_for('login') }}">Iniciar sesión con Spotify</a>
+            {% endif %}
+        </div>
+    </nav>
+    <section id="playlists-section">
+        <h1>Ordena las canciones de tus playlists de Spotify</h1>
+        {% if playlists %}
+            <h2>Tus playlists:</h2>
+            <div class="playlist-grid">
+                {% for playlist in playlists['items'] %}
+                    <div class="playlist-card">
+                        <img src="{{ playlist['images'][0]['url'] }}" alt="{{ playlist['name'] }} Image">
+                        <div class="playlist-info">
+                            <h3>{{ playlist['name'] }}</h3>
+                            <a href="{{ url_for('ordenar', playlist_id=playlist['id']) }}" class="order-button">Ordenar</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+    
+    
+{% endblock %}
